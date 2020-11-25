@@ -46,7 +46,7 @@ class MpccPlanner {
   static Eigen::MatrixXd straight_line(double length, double slope_rad, int n,
                                        double x0, double y0);
   // core module
-  int solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
+  std::vector<double> solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
 };
 
 void MpccPlanner::init() {
@@ -282,7 +282,7 @@ Eigen::MatrixXd MpccPlanner::straight_line(double length, double slope_rad,
 //  solveQP(x0);  //将小车初始状态输入QP求解器求解
 //  visPtr_->publish_traj(state_list_, s_);  //发布初始状态和里程
 //}
-int MpccPlanner::solveQP(kinematic_model::VectorX x0) {
+std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
   std::cout << "小车当前世界坐标:"
             << "(" << x0(0, 0) << "," << x0(1, 0) << ")" << std::endl;
   std::cout << "小车当前车速:" << x0(3, 0) << std::endl;
@@ -532,6 +532,10 @@ int MpccPlanner::solveQP(kinematic_model::VectorX x0) {
 
   // std::cout << "time: " << (t2-t1).toSec() << std::endl;
   // std::cout << "*************************" << std::endl;
+  std::vector<double> output_control = {};
+  output_control.push_back(input_list_(0, 0));
+  output_control.push_back(input_list_(1, 0));
+  return output_control;
 }
 
 }  // namespace mpcc

@@ -46,7 +46,7 @@ class MpccPlanner {
                                        double x0, double y0);
 
   // core module
-  int solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
+  std::vector<double> solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
 };
 }  // namespace mpcc
 #endif
