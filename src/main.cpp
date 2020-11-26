@@ -28,4 +28,5 @@ int main(int argc, char** argv) {
   //     x0.coeffRef(i - 3) = control[i];
   //   }
   // }
+  return 0;
 }
