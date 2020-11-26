@@ -1,1 +1,1 @@
-# libmpcc_planner
+# libmpcc
