@@ -283,6 +283,7 @@ Eigen::MatrixXd MpccPlanner::straight_line(double length, double slope_rad,
 //  visPtr_->publish_traj(state_list_, s_);  //发布初始状态和里程
 //}
 std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
+  std::cout << "x0:" << x0.transpose() << std::endl;
   std::cout << "小车当前世界坐标:"
             << "(" << x0(0, 0) << "," << x0(1, 0) << ")" << std::endl;
   std::cout << "小车当前车速:" << x0(3, 0) << std::endl;
@@ -536,6 +537,11 @@ std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
   output.push_back(state_list_(3, 0));
   output.push_back(input_list_(0, 0));
   output.push_back(input_list_(1, 0));
+  output.push_back(state_list_(0, 0));
+  output.push_back(state_list_(1, 0));
+  output.push_back(state_list_(2, 0));
+  output.push_back(state_list_(3, 0));
+  output.push_back(state_list_(4, 0));
   return output;
 }
 
