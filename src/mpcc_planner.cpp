@@ -532,10 +532,11 @@ std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
 
   // std::cout << "time: " << (t2-t1).toSec() << std::endl;
   // std::cout << "*************************" << std::endl;
-  std::vector<double> output_control = {};
-  output_control.push_back(input_list_(0, 0));
-  output_control.push_back(input_list_(1, 0));
-  return output_control;
+  std::vector<double> output = {};
+  output.push_back(state_list_(3, 0));
+  output.push_back(input_list_(0, 0));
+  output.push_back(input_list_(1, 0));
+  return output;
 }
 
 }  // namespace mpcc
