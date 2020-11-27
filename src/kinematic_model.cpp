@@ -42,9 +42,7 @@ class KinematicModel {
 };
 
 KinematicModel::KinematicModel() {
-  YAML::Node config = YAML::LoadFile(
-      "/home/clint/ProgramFiles/miniq9_forklift-lib/src/mpcc_planner/config/"
-      "parameters.yaml");
+  YAML::Node config = YAML::LoadFile("../config/parameters.yaml");
   ll_ = config["ll"].as<double>();
   dt_ = config["dt"].as<double>();
 }

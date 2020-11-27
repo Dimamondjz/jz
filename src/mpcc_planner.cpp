@@ -53,9 +53,7 @@ void MpccPlanner::init() {
   modelPtr_.reset(new kinematic_model::KinematicModel());  //智能指针重定向
   std::vector<double> track_points_x, track_points_y,
       track_s = {}, track_r = {}, track_ddeg = {};  //声明轨道x，y坐标向量
-  YAML::Node config = YAML::LoadFile(
-      "/home/clint/ProgramFiles/miniq9_forklift-lib/src/mpcc_planner/config/"
-      "parameters.yaml");
+  YAML::Node config = YAML::LoadFile("../config/parameters.yaml");
   track_s = config["track_s"].as<std::vector<double>>();
   track_r = config["track_r"].as<std::vector<double>>();
   track_ddeg = config["track_ddeg"].as<std::vector<double>>();
