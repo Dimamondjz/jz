@@ -14,7 +14,7 @@ link_directories( # 库文件搜索路径
     /usr/local/lib/
     lib/
     )
-#
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  # 指定库文件生成目录
     ${CMAKE_CURRENT_SOURCE_DIR}/lib) 
 add_library(osqp_interface SHARED  # 生成的osqp_interface动态连接库文件
