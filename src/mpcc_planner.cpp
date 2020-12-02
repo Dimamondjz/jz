@@ -2,8 +2,6 @@
 // Created by clint on 2020/11/25.
 //
 
-#ifndef MPCC_PLANNER_HPP
-#define MPCC_PLANNER_HPP
 #include <osqp_interface/osqp_interface.h>
 
 #include <Eigen/Core>
@@ -543,5 +541,3 @@ std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
 }
 
 }  // namespace mpcc
-
-#endif
