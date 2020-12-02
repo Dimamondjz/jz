@@ -10,7 +10,7 @@ control:控制输出(速度 加速度 舵轮转角)
 
 #include "mpcc_planner/mpcc_planner.hpp"
 int main(int argc, char** argv) {
-  close(STDOUT_FILENO);
+  // close(STDOUT_FILENO);
   mpcc::MpccPlanner mpccPlanner;
   mpccPlanner.init();
   kinematic_model::VectorX x0;
