@@ -7,10 +7,9 @@ control:控制输出(速度 加速度 舵轮转角)
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
+#include<iostream>
 #include <chrono>
 #include <string>
-
 #include "mpcc_planner/mpcc_planner.hpp"
 #define QUEUE 20
 #define PORT 6667
@@ -21,14 +20,14 @@ void split(const std::string& s, std::vector<double>& sv,
   std::string temp;
 
   while (getline(iss, temp, flag)) {
-    sv.push_back(stoi(temp));
+    sv.push_back(stod(temp));
   }
   return;
 }
 int main(int argc, char** argv) {
   // close(STDOUT_FILENO);
   mpcc::MpccPlanner mpccPlanner;
-  mpccPlanner.init();
+  int init_flag=0;
   kinematic_model::VectorX x0;
   std::vector<double> state;
   //
@@ -98,10 +97,18 @@ int main(int argc, char** argv) {
         if (strcmp(buffer, "exit\n") == 0) break;
         std::cout << buffer << std::endl;
         split(buffer, state);
-        for (int i = 0; i < state.size(); ++i) {
-          x0.coeffRef(i) = state[i];
+        /*参数解析*/
+        for (int i = 0; i < state.size()-1; ++i) {
+          x0.coeffRef(i) =state[i];
+          std::cout<<"state:"<<state[i]<<std::endl;  
         }
-        std::vector<double> control = mpccPlanner.solveQP(x0);
+        if (init_flag==0){
+          mpccPlanner.delta_last_=state[state.size()-1];
+          mpccPlanner.init();
+          init_flag=1;
+          continue;
+        }
+        std::vector<double> control = mpccPlanner.solveQP(x0, state[state.size()-1]);
         std::string s_control = "";
         for (int i = 0; i < 3; i++) {
           std::cout << control[i] << std::endl;

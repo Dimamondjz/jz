@@ -17,7 +17,7 @@ class MpccPlanner {
   double qvs_;
   double v_b_, a_b_, delta_b_, ddelta_b_, vs_b_,
       dt_;  //速度边界，加速度边界，速度转向边界，里程速度
-  double delta_last_ = 0, tip_, a_brake_b_, ll_, r_min_;  //上一步的转向角
+  double tip_, a_brake_b_, ll_, r_min_;  //上一步的转向角
   int node_index_ = 0;
   double k_brake_ = 0, k_rvs_ = 0, vs_init_b_;
   std::vector<double> s_node_ = {}, r_node_ = {};
@@ -34,6 +34,7 @@ class MpccPlanner {
   Eigen::SparseMatrix<double> Cu_, lu_, uu_;  //输入控制约束
 
  public:
+  double delta_last_ = 0;
   MpccPlanner(){};
 
   ~MpccPlanner(){};
@@ -46,7 +47,7 @@ class MpccPlanner {
                                        double x0, double y0);
 
   // core module
-  std::vector<double> solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
+  std::vector<double> solveQP(kinematic_model::VectorX x0,double delta_in);  // Vector：状态空间
 };
 }  // namespace mpcc
 #endif

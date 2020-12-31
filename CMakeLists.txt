@@ -27,7 +27,7 @@ add_library(kinematic_model SHARED  # 生成的kinematic_model动态连接库文
     ${CMAKE_CURRENT_SOURCE_DIR}/src/kinematic_model.cpp) 
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${PROJECT_NAME} 
-    src/demo.cpp
+    src/${PROJECT_NAME}.cpp
     )
 
 target_link_libraries(${PROJECT_NAME} 

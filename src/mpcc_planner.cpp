@@ -19,7 +19,7 @@ class MpccPlanner {
   double qvs_;
   double v_b_, a_b_, delta_b_, ddelta_b_, vs_b_,
       dt_;  //速度边界，加速度边界，速度转向边界，里程速度
-  double delta_last_ = 0, tip_, a_brake_b_, ll_, r_min_;  //上一步的转向角
+  double tip_, a_brake_b_, ll_, r_min_;  //上一步的转向角
   int node_index_ = 0;
   double k_brake_ = 0, k_rvs_ = 0, vs_init_b_;
   std::vector<double> s_node_ = {}, r_node_ = {};
@@ -36,6 +36,7 @@ class MpccPlanner {
   Eigen::SparseMatrix<double> Cu_, lu_, uu_;  //输入控制约束
 
  public:
+  double delta_last_ = 0;
   MpccPlanner(){};
   ~MpccPlanner(){};
   void init();  //初始化
@@ -44,7 +45,7 @@ class MpccPlanner {
   static Eigen::MatrixXd straight_line(double length, double slope_rad, int n,
                                        double x0, double y0);
   // core module
-  std::vector<double> solveQP(kinematic_model::VectorX x0);  // Vector：状态空间
+  std::vector<double> solveQP(kinematic_model::VectorX x0,double delta_in);  // Vector：状态空间
 };
 
 void MpccPlanner::init() {
@@ -278,7 +279,7 @@ Eigen::MatrixXd MpccPlanner::straight_line(double length, double slope_rad,
 //  solveQP(x0);  //将小车初始状态输入QP求解器求解
 //  visPtr_->publish_traj(state_list_, s_);  //发布初始状态和里程
 //}
-std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
+std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0,double delta_in) {
   std::cout << "小车当前世界坐标:"
             << "(" << x0(0, 0) << "," << x0(1, 0) << ")" << std::endl;
   std::cout << "小车当前车速:" << x0(3, 0) << std::endl;
@@ -288,6 +289,7 @@ std::vector<double> MpccPlanner::solveQP(kinematic_model::VectorX x0) {
             << std::endl;
   std::cout << "小车当前里程:" << x0(4, 0) << std::endl;
   std::cout << "小车总里程:" << s_.arcL() << std::endl;
+  delta_last_=delta_in;
   // if (x0(4,0)>s_node_[node_index_]) ++node_index_;
   node_index_ = x0(4, 0) > s_node_[node_index_] ? ++node_index_ : node_index_;
   node_index_ =
